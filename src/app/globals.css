@@ -1,0 +1,302 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Unbounded:wght@400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== DARK MODE (default) ===== */
+:root {
+  --bg: #0a0a0f;
+  --bg-card: #12121a;
+  --bg-elevated: #1a1a26;
+  --border: #2a2a3e;
+  --border-light: #3a3a54;
+  --accent: #6c63ff;
+  --accent-hover: #8b84ff;
+  --accent-glow: rgba(108, 99, 255, 0.25);
+  --gold: #f5c842;
+  --gold-light: #ffd966;
+  --text: #f0f0f8;
+  --text-muted: #8888aa;
+  --text-dim: #555570;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --navbar-bg: rgba(10,10,15,0.88);
+}
+
+/* ===== LIGHT MODE ===== */
+[data-theme="light"] {
+  --bg: #f4f4f8;
+  --bg-card: #ffffff;
+  --bg-elevated: #eeeef5;
+  --border: #d8d8e8;
+  --border-light: #c0c0d8;
+  --accent: #6c63ff;
+  --accent-hover: #5a52e0;
+  --accent-glow: rgba(108, 99, 255, 0.15);
+  --gold: #d4a00a;
+  --gold-light: #e8b820;
+  --text: #16161e;
+  --text-muted: #555570;
+  --text-dim: #9999b0;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --navbar-bg: rgba(244,244,248,0.92);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Manrope', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+::selection { background: var(--accent-glow); color: var(--text); }
+
+/* Utilities */
+.font-display { font-family: 'Unbounded', sans-serif; }
+
+/* ===== CARD ===== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  border-color: var(--border-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+}
+[data-theme="light"] .card:hover {
+  box-shadow: 0 6px 24px rgba(0,0,0,0.1);
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-primary:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 4px 16px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: #1a1400;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 12px 24px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-gold:hover {
+  box-shadow: 0 4px 16px rgba(245,200,66,0.35);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+
+/* ===== INPUT ===== */
+.input {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  padding: 10px 14px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.input::placeholder { color: var(--text-dim); }
+
+/* ===== BADGE ===== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  gap: 3px;
+}
+.badge-accent { background: rgba(108,99,255,0.18); color: var(--accent); }
+.badge-gold { background: rgba(245,200,66,0.15); color: var(--gold); }
+.badge-success { background: rgba(34,197,94,0.15); color: var(--success); }
+.badge-danger { background: rgba(239,68,68,0.15); color: var(--danger); }
+
+[data-theme="light"] .badge-gold { background: rgba(212,160,10,0.12); }
+
+/* ===== LOT CARD IMAGE ===== */
+.lot-img-wrap {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: 10px 10px 0 0;
+  background: #ffffff;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+[data-theme="light"] .lot-img-wrap {
+  background: var(--bg-elevated);
+}
+.lot-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  
+  transition: transform 0.4s ease;
+}
+.card:hover .lot-img-wrap img { transform: scale(1.06); }
+
+/* ===== GRADIENT TEXT ===== */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent), #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-text-gold {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+[data-theme="light"] .gradient-text-gold {
+  background: linear-gradient(135deg, #c49208, #d4a00a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== NOISE BG ===== */
+.noise-bg {
+  position: relative;
+}
+.noise-bg::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.3;
+}
+
+/* ===== THEME TOGGLE BUTTON ===== */
+.theme-toggle {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--text-muted);
+  transition: all 0.2s;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 500;
+}
+.theme-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fadeUp 0.4s ease forwards; }
+
+@media (min-width: 768px) { .hidden-mobile { display: flex !important; } }
+@media (max-width: 767px) { .hidden-mobile { display: none !important; } }
+
+/* Admin forma maydonlari — tor ekranda bitta ustunga tushadi */
+@media (max-width: 640px) {
+  .form-grid-2, .form-grid-3 { grid-template-columns: 1fr !important; }
+}
+
+/* Mobil suzuvchi "+ Yangi lot" tugmasi - faqat tor ekranda korinadi */
+.fab-add-mobile { display: none; }
+@media (max-width: 767px) {
+  .fab-add-mobile {
+    display: flex; align-items: center; justify-content: center;
+    position: fixed; right: 18px; bottom: 22px; z-index: 50;
+    width: 56px; height: 56px; border-radius: 999px;
+    background: linear-gradient(135deg, var(--accent), #a78bfa);
+    color: #fff; border: none; cursor: pointer; text-decoration: none;
+    box-shadow: 0 10px 28px var(--accent-glow);
+  }
+}
+
+
+/* Footer 3 ustunli grid - tor ekranda bittaga tushadi */
+@media (max-width: 640px) {
+  .footer-grid { grid-template-columns: 1fr !important; text-align: left; }
+}
+
+/* Lotlar sahifasidagi filtr paneli - tor ekranda tepaga chiqadi, sticky ochiladi */
+@media (max-width: 900px) {
+  .lots-layout { flex-direction: column !important; }
+  .lots-sidebar { width: 100% !important; position: static !important; }
+}

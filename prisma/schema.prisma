@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Lot {
+  id               String   @id @default(cuid())
+  title            String
+  description      String   @default("")
+  price            Int
+  currency         String   @default("UZS")
+  category         String
+  images           String[]
+  characteristics  Json     @default("[]")
+  cooperationLink  String   @default("")
+  cooperationPrice Int?
+  stock            Int      @default(0)
+  minOrder         Int      @default(1)
+  maxOrder         Int      @default(100)
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Stats {
+  id          String @id @default("global")
+  totalViews  Int    @default(0)
+  totalOrders Int    @default(0)
+  lotViews    Json   @default("{}")
+  lotOrders   Json   @default("{}")
+}
