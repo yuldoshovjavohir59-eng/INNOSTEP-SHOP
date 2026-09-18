@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, Menu, X, Zap, Settings, Sun, Moon, Home, Boxes } from 'lucide-react';
+import { Search, Menu, X, Zap, Settings, Sun, Moon, Home, Boxes, Send, Phone } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
@@ -12,7 +12,6 @@ export default function Navbar() {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
   useEffect(() => {
-    // Load saved theme
     const saved = localStorage.getItem('innostep_theme') as 'dark' | 'light' | null;
     const initial = saved || 'dark';
     setTheme(initial);
@@ -42,11 +41,47 @@ export default function Navbar() {
       backdropFilter: 'blur(20px)',
       borderBottom: '1px solid var(--border)',
     }}>
+      <div style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-elevated)' }}>
+        <div style={{
+          maxWidth: 1280, margin: '0 auto', padding: '7px 20px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          fontSize: 12, color: 'var(--text-muted)', fontFamily: "'Manrope', sans-serif",
+        }}>
+          <span className="hidden-mobile">Biz bilan tezkor aloqa:</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginLeft: 'auto' }}>
+            <a
+              href="tel:+998500370708"
+              style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                color: 'var(--text)', textDecoration: 'none', fontWeight: 600,
+              }}
+            >
+              <Phone size={12} color="var(--accent)" />
+              +998 50 037 07 08
+              <span className="hidden-mobile" style={{ fontWeight: 400, color: 'var(--text-dim)' }}>
+                &middot; 9:00&ndash;18:00
+              </span>
+            </a>
+            <a
+              href="https://t.me/JavakhirYoldashov"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Telegram"
+              style={{
+                width: 20, height: 20, borderRadius: '50%', background: '#229ED9',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+              }}
+            >
+              <Send size={11} color="white" />
+            </a>
+          </div>
+        </div>
+      </div>
+
       <nav style={{
         maxWidth: 1280, margin: '0 auto', padding: '0 20px',
         height: 62, display: 'flex', alignItems: 'center', gap: 12,
       }}>
-        {/* Logo */}
         <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
           <div style={{
             width: 32, height: 32,
@@ -60,13 +95,11 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Desktop nav links */}
         <div style={{ flex: 1, display: 'flex', gap: 4, marginLeft: 16 }} className="hidden-mobile">
           <NavLink href="/">Bosh sahifa</NavLink>
           <NavLink href="/lots">Barcha lotlar</NavLink>
         </div>
 
-        {/* Search bar */}
         {searchOpen && (
           <div style={{ flex: 1, maxWidth: 320 }}>
             <input
@@ -82,9 +115,7 @@ export default function Navbar() {
           </div>
         )}
 
-        {/* Right actions */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginLeft: 'auto' }}>
-          {/* Theme toggle */}
           <button
             className="theme-toggle"
             onClick={toggleTheme}
@@ -115,8 +146,9 @@ export default function Navbar() {
             </button>
           </Link>
 
+          {/* Hamburger — faqat tor (mobil) ekranda ko'rinadi, katta ekranda kerak emas */}
           <button
-            className="btn-outline"
+            className="btn-outline mobile-menu-toggle"
             style={{ padding: '7px 10px', fontSize: 13 }}
             onClick={() => setMenuOpen(!menuOpen)}
           >
@@ -125,13 +157,12 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile menu */}
       {menuOpen && (
-        <div style={{
+        <div className="mobile-menu-toggle" style={{
           background: 'var(--bg-card)',
           borderTop: '1px solid var(--border)',
           padding: '10px 12px 16px',
-          display: 'flex', flexDirection: 'column', gap: 2,
+          flexDirection: 'column', gap: 2,
           animation: 'menuSlideDown 0.18s ease',
         }}>
           <MobileMenuItem href="/" icon={<Home size={16} />} onClick={() => setMenuOpen(false)}>
@@ -177,6 +208,8 @@ export default function Navbar() {
           from { opacity: 0; transform: translateY(-6px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        @media (min-width: 768px) { .mobile-menu-toggle { display: none !important; } }
+        @media (max-width: 767px) { button.mobile-menu-toggle { display: flex !important; } div.mobile-menu-toggle { display: flex !important; } }
       `}</style>
     </header>
   );
