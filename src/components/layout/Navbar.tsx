@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, Menu, X, Zap, Settings, Sun, Moon, Home, Boxes, Send, Phone } from 'lucide-react';
+import { Search, Menu, X, Zap, Settings, Sun, Moon, Home, Boxes, Send, Phone, MessageCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
@@ -48,32 +48,21 @@ export default function Navbar() {
           fontSize: 12, color: 'var(--text-muted)', fontFamily: "'Manrope', sans-serif",
         }}>
           <span className="hidden-mobile">Biz bilan tezkor aloqa:</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginLeft: 'auto' }}>
-            <a
-              href="tel:+998500370708"
-              style={{
-                display: 'flex', alignItems: 'center', gap: 10,
-                color: 'var(--text)', textDecoration: 'none', fontWeight: 600,
-              }}
-            >
-              <Phone size={12} color="var(--accent)" />
-              +998 50 037 07 08
-              <span className="hidden-mobile" style={{ fontWeight: 400, color: 'var(--text-dim)' }}>
-                &middot; 9:00&ndash;18:00
-              </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginLeft: 'auto', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+            <a href="tel:+998500370708" style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text)', textDecoration: 'none', fontWeight: 600 }}>
+              <Phone size={13} style={{ color: 'var(--accent)' }} /> +998 50 037 07 08
             </a>
-            <a
-              href="https://t.me/JavakhirYoldashov"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Telegram"
-              style={{
-                width: 20, height: 20, borderRadius: '50%', background: '#229ED9',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-              }}
-            >
-              <Send size={11} color="white" />
+            <a href="tel:+998930031933" className="hidden-mobile" style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text)', textDecoration: 'none', fontWeight: 600 }}>
+              <Phone size={13} style={{ color: 'var(--accent)' }} /> +998 93 003 19 33
             </a>
+            <span className="hidden-mobile" style={{ color: 'var(--text-muted)' }}>9:00&ndash;18:00</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <SocialIcon href="https://t.me/JavakhirYoldashov" title="Telegram" bg="#229ED9"><Send size={12} color="white" /></SocialIcon>
+              <SocialIcon href="https://wa.me/998500370708" title="WhatsApp" bg="#25D366"><MessageCircle size={12} color="white" /></SocialIcon>
+              <SocialIcon href="https://www.instagram.com/javakhir_yoldoshov/" title="Instagram" bg="linear-gradient(45deg, #f09433, #dc2743, #bc1888)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="0.8" fill="white" /></svg>
+              </SocialIcon>
+            </div>
           </div>
         </div>
       </div>
@@ -268,5 +257,14 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
     >
       {children}
     </Link>
+  );
+}
+
+function SocialIcon({ href, title, bg, children }: { href: string; title: string; bg: string; children: React.ReactNode }) {
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer" title={title} aria-label={title}
+      style={{ width: 22, height: 22, borderRadius: '50%', background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      {children}
+    </a>
   );
 }

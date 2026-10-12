@@ -41,7 +41,7 @@ export default function AdminLoginPage() {
           }}>
             <Zap size={28} color="white" fill="white" />
           </div>
-          <h1 className="font-display" style={{ fontSize: 24, fontWeight: 700 }}>LUXURY-MARKET SHOP</h1>
+          <h1 className="font-display" style={{ fontSize: 24, fontWeight: 700 }}>Innostep Shop</h1>
           <p style={{ color: 'var(--text-muted)', fontSize: 14, marginTop: 6 }}>Admin Panel</p>
         </div>
 
