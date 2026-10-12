@@ -53,7 +53,7 @@ export default function Navbar() {
               <Phone size={13} style={{ color: 'var(--accent)' }} /> +998 50 037 07 08
             </a>
             <a href="tel:+998930031933" className="hidden-mobile" style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text)', textDecoration: 'none', fontWeight: 600 }}>
-              <Phone size={13} style={{ color: 'var(--accent)' }} /> +998 93 003 19 33
+              <Phone size={13} style={{ color: 'var(--accent)' }} /> +998 95 114 99 88
             </a>
             <span className="hidden-mobile" style={{ color: 'var(--text-muted)' }}>9:00&ndash;18:00</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -80,7 +80,7 @@ export default function Navbar() {
             <Zap size={16} color="white" fill="white" />
           </div>
           <span className="font-display" style={{ fontSize: 15, fontWeight: 700, color: 'var(--text)' }}>
-            INNOSTEP SHOP
+            LUXURY MARKET
           </span>
         </Link>
 

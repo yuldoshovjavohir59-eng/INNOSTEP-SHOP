@@ -3,8 +3,8 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: 'INNOSTEP Shop — Premium Mahsulotlar',
-    template: '%s | INNOSTEP Shop',
+    default: 'LUXURY MARKET — Premium Mahsulotlar',
+    template: '%s | LUXURY MARKET',
   },
   description: "O'zbekistondagi eng sifatli mahsulotlar katalogi. Elektronika, maishiy texnika, va boshqa tovarlar eng qulay narxlarda.",
   keywords: ['innostep', 'shop', 'mahsulot', 'lot', 'elektron', 'smartphone', 'uzbekistan', 'online shop'],
@@ -19,14 +19,14 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'uz_UZ',
     url: 'https://innostep-shop.vercel.app',
-    siteName: 'INNOSTEP Shop',
-    title: 'INNOSTEP Shop — Premium Mahsulotlar',
+    siteName: 'LUXURY MARKET',
+    title: 'LUXURY MARKET — Premium Mahsulotlar',
     description: "O'zbekistondagi eng sifatli mahsulotlar katalogi.",
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'INNOSTEP Shop' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'LUXURY MARKET' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'INNOSTEP Shop — Premium Mahsulotlar',
+    title: 'LUXURY MARKET — Premium Mahsulotlar',
     description: "O'zbekistondagi eng sifatli mahsulotlar katalogi.",
     images: ['/og-image.png'],
   },

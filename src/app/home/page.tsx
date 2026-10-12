@@ -135,7 +135,7 @@ export default function HomePage() {
                 <Zap size={15} color="white" fill="white" />
               </div>
               <span className="font-display" style={{ fontSize: 16, fontWeight: 700, color: 'var(--text)' }}>
-                INNOSTEP SHOP
+                LUXURY MARKET
               </span>
             </div>
             <p style={{ color: 'var(--text-muted)', fontSize: 13, lineHeight: 1.6, maxWidth: 320 }}>
@@ -169,7 +169,7 @@ export default function HomePage() {
         </div>
 
         <div style={{ borderTop: '1px solid var(--border)', padding: '16px 24px', textAlign: 'center' }}>
-          <p style={{ color: 'var(--text-dim)', fontSize: 12 }}>© 2026 INNOSTEP SHOP. Barcha huquqlar himoyalangan.</p>
+          <p style={{ color: 'var(--text-dim)', fontSize: 12 }}>© 2026 LUXURY MARKET. Barcha huquqlar himoyalangan.</p>
         </div>
       </footer>
     </>
