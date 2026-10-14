@@ -72,13 +72,7 @@ export default function Navbar() {
         height: 62, display: 'flex', alignItems: 'center', gap: 12,
       }}>
         <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-          <div style={{
-            width: 32, height: 32,
-            background: 'linear-gradient(135deg, var(--accent), #a78bfa)',
-            borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
-            <Zap size={16} color="white" fill="white" />
-          </div>
+          <img src="/logo-crown.png" alt="Luxury Market" width={32} height={32} style={{ borderRadius: 8, display: 'block' }} />
           <span className="font-display" style={{ fontSize: 15, fontWeight: 700, color: 'var(--text)' }}>
             LUXURY MARKET
           </span>
