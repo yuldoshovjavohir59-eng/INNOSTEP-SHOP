@@ -7,6 +7,7 @@ import Navbar from '@/components/layout/Navbar';
 import LotCard from '@/components/lot/LotCard';
 import { apiGetLots } from '@/lib/api';
 import { Lot } from '@/types';
+import { getExchange, ExchangeIcon } from '@/lib/exchanges';
 
 function LotsContent() {
   const searchParams = useSearchParams();
@@ -137,7 +138,14 @@ function LotsContent() {
                       onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.background = 'var(--bg-elevated)'; }}
                       onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.background = 'transparent'; }}
                     >
-                      {cat}
+                      {(() => {
+                        const ex = getExchange(cat);
+                        return ex ? <ExchangeIcon exchange={ex} size={18} /> : null;
+                      })()}
+                      <span style={{ marginLeft: 8, flex: 1 }}>{cat}</span>
+                      <span style={{ fontSize: 11, color: 'var(--text-dim)' }}>
+                        {cat === 'Barchasi' ? allLots.length : allLots.filter((l) => l.category === cat).length}
+                      </span>
                     </button>
                   );
                 })}

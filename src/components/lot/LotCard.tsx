@@ -2,11 +2,13 @@ import Link from 'next/link';
 import { ExternalLink, Package, TrendingUp } from 'lucide-react';
 import { Lot } from '@/types';
 import { formatPrice } from '@/lib/data';
+import { getExchange, ExchangeIcon } from '@/lib/exchanges';
 export default function LotCard({ lot }: { lot: Lot }) {
   const priceChanged = lot.cooperationPrice && lot.cooperationPrice !== lot.price;
   const priceDiff = lot.cooperationPrice
     ? Math.round(((lot.price - lot.cooperationPrice) / lot.cooperationPrice) * 100)
     : 0;
+  const exchange = getExchange(lot.category);
   return (
     <Link href={`/lot/${lot.id}`} style={{ textDecoration: 'none', display: 'flex' }}>
       <div className="card" style={{ overflow: 'hidden', cursor: 'pointer', width: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -19,7 +21,10 @@ export default function LotCard({ lot }: { lot: Lot }) {
             </div>
           )}
           <div style={{ position: 'absolute', top: 10, left: 10 }}>
-            <span className="badge badge-accent">{lot.category}</span>
+            <span className="badge badge-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+              {exchange ? <ExchangeIcon exchange={exchange} size={16} /> : null}
+              {lot.category}
+            </span>
           </div>
           {priceChanged && (
             <div style={{ position: 'absolute', top: 10, right: 10 }}>
