@@ -1,17 +1,32 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Zap, Shield, RefreshCw, Package, Phone, Send, Clock, Truck } from 'lucide-react';
+import { ArrowRight, Zap, Shield, RefreshCw, Package, Phone, Send, Clock, Truck, MessageCircle, Camera } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import LotCard from '@/components/lot/LotCard';
 import CategoryBar from '@/components/lot/CategoryBar';
 import { apiGetLots } from '@/lib/api';
 import { Lot } from '@/types';
 
+function useColumns() {
+  const [cols, setCols] = useState(5);
+  useEffect(() => {
+    function calc() {
+      const w = Math.min(1280, window.innerWidth) - 48;
+      setCols(Math.max(2, Math.floor((w + 16) / 236)));
+    }
+    calc();
+    window.addEventListener('resize', calc);
+    return () => window.removeEventListener('resize', calc);
+  }, []);
+  return cols;
+}
+
 export default function HomePage() {
   const [lots, setLots] = useState<Lot[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('Barchasi');
+  const cols = useColumns();
 
   useEffect(() => {
     apiGetLots().then((all) => {
@@ -22,7 +37,9 @@ export default function HomePage() {
 
   const categories = Array.from(new Set(lots.map((l) => l.category)));
   const filtered = activeCategory === 'Barchasi' ? lots : lots.filter(l => l.category === activeCategory);
-  const displayLots = filtered.slice(0, 18);
+  const maxShow = cols * 4;
+  const fullRows = Math.floor(Math.min(filtered.length, maxShow) / cols) * cols;
+  const displayLots = filtered.slice(0, fullRows > 0 ? fullRows : Math.min(filtered.length, maxShow));
 
   return (
     <>
@@ -102,7 +119,7 @@ export default function HomePage() {
                 ))}
               </div>
             ) : (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16, alignItems: 'stretch' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(' + cols + ', minmax(0, 1fr))', gap: cols <= 2 ? 10 : 16, alignItems: 'stretch' }}>
                 {displayLots.map((lot) => <LotCard key={lot.id} lot={lot} />)}
               </div>
             )}
@@ -127,13 +144,7 @@ export default function HomePage() {
         }} className="footer-grid">
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-              <div style={{
-                width: 30, height: 30,
-                background: 'linear-gradient(135deg, var(--accent), #a78bfa)',
-                borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}>
-                <Zap size={15} color="white" fill="white" />
-              </div>
+              <img src="/logo-crown.png" alt="Luxury Market" width={30} height={30} style={{ borderRadius: 8, display: 'block' }} />
               <span className="font-display" style={{ fontSize: 16, fontWeight: 700, color: 'var(--text)' }}>
                 LUXURY MARKET
               </span>
@@ -159,6 +170,9 @@ export default function HomePage() {
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <FooterLink href="tel:+998500370708" icon={<Phone size={14} />}>+998 50 037 07 08</FooterLink>
+              <FooterLink href="tel:+998951149988" icon={<Phone size={14} />}>+998 95 114 99 88</FooterLink>
+              <FooterLink href="https://wa.me/998500370708" external icon={<MessageCircle size={14} />}>WhatsApp</FooterLink>
+              <FooterLink href="https://www.instagram.com/javakhir_yoldoshov/" external icon={<Camera size={14} />}>Instagram</FooterLink>
               <FooterLink href="https://t.me/JavakhirYoldashov" external icon={<Send size={14} />}>@JavakhirYoldashov</FooterLink>
               <span style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--text-muted)' }}>
                 <Clock size={14} style={{ color: 'var(--accent)', flexShrink: 0 }} />
