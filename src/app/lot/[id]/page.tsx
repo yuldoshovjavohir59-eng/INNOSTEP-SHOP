@@ -191,7 +191,7 @@ export default function LotDetailPage() {
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6, fontSize: 12, color: 'var(--text-dim)', marginTop: 10, justifyContent: 'center', textAlign: 'center' }}>
               <CheckCircle size={12} color="var(--success)" style={{ marginTop: 2, flexShrink: 0 }} />
               <span>
-                {lot.cooperationLink ? (exchange ? exchange.name : 'Saytda') + ' orqali buyurtma shu saytda rasmiylashtiriladi. ' : ''}
+                {lot.cooperationLink ? 'Buyurtma ' + (exchange ? exchange.name : 'tashqi') + ' saytida rasmiylashtiriladi. ' : ''}
                 Telegram orqali — to&apos;g&apos;ridan-to&apos;g&apos;ri biz bilan bog&apos;lanasiz.
               </span>
             </div>
