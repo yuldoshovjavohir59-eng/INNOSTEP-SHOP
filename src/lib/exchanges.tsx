@@ -17,7 +17,7 @@ const EXCHANGES: Record<string, Exchange> = {
 
 export function getExchange(category: string | undefined | null): Exchange | null {
   const c = (category || '').toLowerCase().replace(/\s+/g, ' ').trim();
-  if (!c) return null;
+  if (c === '') return null;
   if (c.indexOf('new.cooperation') >= 0 || c.indexOf('new cooperation') >= 0) return EXCHANGES['new-cooperation'];
   if (c.indexOf('cooperation') >= 0) return EXCHANGES['cooperation'];
   if (c.indexOf('uzex') >= 0 || c.indexOf('xarid uz') >= 0) return EXCHANGES['xarid-uzex'];
@@ -28,17 +28,13 @@ export function getExchange(category: string | undefined | null): Exchange | nul
 
 export function ExchangeIcon({ exchange, size = 22 }: { exchange: Exchange; size?: number }) {
   return (
-    <span
+    <img
+      src={'/exchanges/' + exchange.id + '.png'}
+      alt={exchange.name}
       title={exchange.name}
-      style={{
-        width: size, height: size, borderRadius: Math.round(size * 0.3), flexShrink: 0,
-        background: exchange.color, color: '#fff',
-        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: Math.round(size * 0.42), fontWeight: 800, letterSpacing: -0.3,
-        fontFamily: "'Manrope', sans-serif",
-      }}
-    >
-      {exchange.short}
-    </span>
+      width={size}
+      height={size}
+      style={{ width: size, height: size, borderRadius: Math.round(size * 0.3), flexShrink: 0, display: 'inline-block', objectFit: 'cover' }}
+    />
   );
 }
