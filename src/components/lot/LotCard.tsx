@@ -60,12 +60,12 @@ export default function LotCard({ lot }: { lot: Lot }) {
             marginTop: 10, paddingTop: 10,
             borderTop: '1px solid var(--border)',
             display: 'flex', alignItems: 'center',
-            justifyContent: 'space-between', gap: 4,
+            justifyContent: 'space-between', flexWrap: 'wrap', gap: '6px 4px',
           }}>
             <div className="gradient-text-gold" style={{
-              fontSize: 14, fontWeight: 700,
+              fontSize: 'clamp(12px, 3.4vw, 14px)', fontWeight: 700,
               fontFamily: "'Unbounded', sans-serif",
-              lineHeight: 1.2, wordBreak: 'break-all',
+              lineHeight: 1.2, whiteSpace: 'nowrap',
             }}>
               {formatPrice(lot.price)}
             </div>

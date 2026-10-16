@@ -181,7 +181,7 @@ export default function CategoryBar({
       <div
         ref={trackRef}
         style={{
-          display: 'flex', gap: 6, width: 'max-content',
+          display: 'flex', gap: 6, width: 'max-content', margin: loop ? undefined : '0 auto',
           paddingBottom: 10, willChange: 'transform',
         }}
       >
