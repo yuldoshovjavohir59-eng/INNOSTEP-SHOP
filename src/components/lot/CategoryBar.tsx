@@ -6,6 +6,7 @@ import {
   Boxes, Shapes, BedDouble, Droplets, Sparkles, SprayCan, FlaskConical,
   ShoppingBag, CupSoda, ScrollText, Bath, Wrench, type LucideIcon,
 } from 'lucide-react';
+import { getExchange } from '@/lib/exchanges';
 
 // Kategoriya nomiga qarab mos ikonka (eng aniqdan umumiyga qarab tekshiriladi)
 function getCategoryIcon(name: string): LucideIcon {
@@ -60,12 +61,32 @@ export default function CategoryBar({
 }) {
   const base = ['Barchasi', ...categories];
   // Uzluksiz aylanish illyuziyasi uchun ro'yxatni ikki marta takrorlaymiz
-  const items = [...base, ...base];
+  const [loop, setLoop] = useState(true);
+  const items = loop ? [...base, ...base] : base;
 
   const trackRef = useRef<HTMLDivElement | null>(null);
   const posRef = useRef(0); // joriy siljish (px), transform orqali qo'llanadi — brauzer scrollLeft'iga bog'liq emas
   const drag = useRef({ active: false, startX: 0, startPos: 0, moved: false });
   const [paused, setPaused] = useState(false);
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+
+  // Kategoriyalar ekranga sig'sa aylantirmaymiz (takrorlanib ko'rinmasligi uchun)
+  useEffect(() => {
+    function check() {
+      const w = wrapRef.current ? wrapRef.current.clientWidth : 0;
+      setLoop(base.length * 94 > w);
+    }
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, [base.length]);
+
+  useEffect(() => {
+    if (loop === false && trackRef.current) {
+      posRef.current = 0;
+      trackRef.current.style.transform = 'none';
+    }
+  }, [loop]);
   const pausedRef = useRef(false);
   pausedRef.current = paused;
 
@@ -89,7 +110,7 @@ export default function CategoryBar({
       const track = trackRef.current;
       const dt = now - last;
       last = now;
-      if (track && !pausedRef.current && !drag.current.active) {
+      if (track && loop && !pausedRef.current && !drag.current.active) {
         posRef.current += (speedPerSec * dt) / 1000;
         wrap(track.scrollWidth / 2);
         applyTransform();
@@ -98,11 +119,11 @@ export default function CategoryBar({
     }
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [items.length]);
+  }, [items.length, loop]);
 
   function onWheel(e: React.WheelEvent<HTMLDivElement>) {
     const track = trackRef.current;
-    if (!track) return;
+    if (!track || !loop) return;
     if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
       posRef.current += e.deltaY;
       wrap(track.scrollWidth / 2);
@@ -115,7 +136,7 @@ export default function CategoryBar({
     drag.current = { active: true, startX: e.pageX, startPos: posRef.current, moved: false };
   }
   function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    if (!drag.current.active) return;
+    if (!drag.current.active || !loop) return;
     const track = trackRef.current;
     const dx = e.pageX - drag.current.startX;
     if (Math.abs(dx) > 4) drag.current.moved = true;
@@ -123,6 +144,17 @@ export default function CategoryBar({
     if (track) { wrap(track.scrollWidth / 2); applyTransform(); }
   }
   function endDrag() { drag.current.active = false; }
+  function onTouchStart(e: React.TouchEvent<HTMLDivElement>) {
+    drag.current = { active: true, startX: e.touches[0].pageX, startPos: posRef.current, moved: false };
+  }
+  function onTouchMove(e: React.TouchEvent<HTMLDivElement>) {
+    if (!drag.current.active || !loop) return;
+    const track = trackRef.current;
+    const dx = e.touches[0].pageX - drag.current.startX;
+    if (Math.abs(dx) > 4) drag.current.moved = true;
+    posRef.current = drag.current.startPos - dx;
+    if (track) { wrap(track.scrollWidth / 2); applyTransform(); }
+  }
   // Drag qilib sudralganda tugma bosilib ketmasligi uchun
   function onClickCapture(e: React.MouseEvent<HTMLDivElement>) {
     if (drag.current.moved) { e.preventDefault(); e.stopPropagation(); drag.current.moved = false; }
@@ -130,6 +162,10 @@ export default function CategoryBar({
 
   return (
     <div
+      ref={wrapRef}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={endDrag}
       onWheel={onWheel}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
@@ -151,6 +187,7 @@ export default function CategoryBar({
       >
         {items.map((cat, i) => {
           const Icon = getCategoryIcon(cat);
+          const ex = getExchange(cat);
           const isActive = active === cat;
           const color = PALETTE[i % PALETTE.length];
           return (
@@ -176,7 +213,18 @@ export default function CategoryBar({
                   transition: 'all 0.2s ease',
                 }}
               >
-                <Icon size={26} strokeWidth={1.7} />
+                {ex ? (
+                  <img
+                    src={'/exchanges/' + ex.id + '.png'}
+                    alt={ex.name}
+                    width={44}
+                    height={44}
+                    draggable={false}
+                    style={{ width: 44, height: 44, borderRadius: 12, display: 'block', pointerEvents: 'none' }}
+                  />
+                ) : (
+                  <Icon size={26} strokeWidth={1.7} />
+                )}
               </span>
               <span style={{
                 fontSize: 12, lineHeight: 1.3, textAlign: 'center', maxWidth: 84,
