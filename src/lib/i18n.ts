@@ -46,6 +46,7 @@ export function useLang(): Lang {
 const D: Record<string, [string, string, string]> = {
   "nav.home": ["Bosh sahifa","Главная","Home"],
   "nav.lots": ["Barcha lotlar","Все лоты","All lots"],
+  "nav.searchLabel": ["Qidirish","Поиск","Search"],
   "nav.contact": ["Biz bilan tezkor aloqa:","Быстрая связь с нами:","Contact us quickly:"],
   "nav.search": ["Qidirish... (Enter)","Поиск... (Enter)","Search... (Enter)"],
   "th.light": ["Yorqin rejim","Светлая тема","Light mode"],

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Search, Menu, X, Zap, Settings, Sun, Moon, Home, Boxes, Send, Phone, MessageCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import LangSwitcher from '@/components/layout/LangSwitcher';
+import LangDropdown from '@/components/layout/LangDropdown';
 import { useT } from '@/lib/i18n';
 
 export default function Navbar() {
@@ -102,7 +102,7 @@ export default function Navbar() {
         )}
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginLeft: 'auto' }}>
-          <div className="hidden-mobile"><LangSwitcher /></div>
+          <LangDropdown />
           <button
             className="theme-toggle"
             onClick={toggleTheme}
@@ -115,7 +115,7 @@ export default function Navbar() {
           </button>
 
           <button
-            className="btn-outline"
+            className="btn-outline hidden-mobile"
             style={{ padding: '7px 10px', fontSize: 13 }}
             onClick={() => setSearchOpen(!searchOpen)}
             aria-label="Search"
@@ -159,13 +159,30 @@ export default function Navbar() {
             {t('nav.lots')}
           </MobileMenuItem>
 
+          <button
+            onClick={() => { setSearchOpen(true); setMenuOpen(false); }}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 12,
+              background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
+              padding: '10px 12px', borderRadius: 10, width: '100%',
+              fontFamily: "'Manrope', sans-serif",
+            }}
+          >
+            <span style={{
+              width: 30, height: 30, borderRadius: 9, flexShrink: 0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: 'var(--bg-elevated)', color: 'var(--text-muted)',
+            }}>
+              <Search size={16} />
+            </span>
+            <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)' }}>{t('nav.searchLabel')}</span>
+          </button>
+
           <div style={{ height: 1, background: 'var(--border)', margin: '8px 4px' }} />
 
           <MobileMenuItem href="/admin/login" icon={<Settings size={16} />} accent onClick={() => setMenuOpen(false)}>
             Admin Panel
           </MobileMenuItem>
-
-          <div style={{ padding: '10px 12px' }}><LangSwitcher /></div>
 
           <button
             onClick={() => { toggleTheme(); setMenuOpen(false); }}
