@@ -3,9 +3,12 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Search, Menu, X, Zap, Settings, Sun, Moon, Home, Boxes, Send, Phone, MessageCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import LangSwitcher from '@/components/layout/LangSwitcher';
+import { useT } from '@/lib/i18n';
 
 export default function Navbar() {
   const router = useRouter();
+  const t = useT();
   const [menuOpen, setMenuOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [searchOpen, setSearchOpen] = useState(false);
@@ -47,12 +50,12 @@ export default function Navbar() {
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           fontSize: 12, color: 'var(--text-muted)', fontFamily: "'Manrope', sans-serif",
         }}>
-          <span className="hidden-mobile">Biz bilan tezkor aloqa:</span>
+          <span className="hidden-mobile">{t('nav.contact')}</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginLeft: 'auto', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
             <a href="tel:+998500370708" style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text)', textDecoration: 'none', fontWeight: 600 }}>
               <Phone size={13} style={{ color: 'var(--accent)' }} /> +998 50 037 07 08
             </a>
-            <a href="tel:+998930031933" className="hidden-mobile" style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text)', textDecoration: 'none', fontWeight: 600 }}>
+            <a href="tel:+998951149988" className="hidden-mobile" style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text)', textDecoration: 'none', fontWeight: 600 }}>
               <Phone size={13} style={{ color: 'var(--accent)' }} /> +998 95 114 99 88
             </a>
             <span className="hidden-mobile" style={{ color: 'var(--text-muted)' }}>9:00&ndash;18:00</span>
@@ -79,15 +82,15 @@ export default function Navbar() {
         </Link>
 
         <div style={{ flex: 1, display: 'flex', gap: 4, marginLeft: 16 }} className="hidden-mobile">
-          <NavLink href="/">Bosh sahifa</NavLink>
-          <NavLink href="/lots">Barcha lotlar</NavLink>
+          <NavLink href="/">{t('nav.home')}</NavLink>
+          <NavLink href="/lots">{t('nav.lots')}</NavLink>
         </div>
 
         {searchOpen && (
           <div style={{ flex: 1, maxWidth: 320 }}>
             <input
               className="input"
-              placeholder="Qidirish... (Enter)"
+              placeholder={t('nav.search')}
               value={search}
               onChange={e => setSearch(e.target.value)}
               onKeyDown={handleSearch}
@@ -99,14 +102,15 @@ export default function Navbar() {
         )}
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginLeft: 'auto' }}>
+          <div className="hidden-mobile"><LangSwitcher /></div>
           <button
             className="theme-toggle"
             onClick={toggleTheme}
-            title={theme === 'dark' ? "Yorqin rejim" : "Qorong'u rejim"}
+            title={theme === 'dark' ? t('th.light') : t('th.dark')}
           >
             {theme === 'dark'
-              ? <><Sun size={14} /> <span className="hidden-mobile" style={{ fontSize: 12 }}>Light</span></>
-              : <><Moon size={14} /> <span className="hidden-mobile" style={{ fontSize: 12 }}>Dark</span></>
+              ? <><Sun size={14} /> <span className="hidden-mobile" style={{ fontSize: 12 }}>{t('lab.light')}</span></>
+              : <><Moon size={14} /> <span className="hidden-mobile" style={{ fontSize: 12 }}>{t('lab.dark')}</span></>
             }
           </button>
 
@@ -149,10 +153,10 @@ export default function Navbar() {
           animation: 'menuSlideDown 0.18s ease',
         }}>
           <MobileMenuItem href="/" icon={<Home size={16} />} onClick={() => setMenuOpen(false)}>
-            Bosh sahifa
+            {t('nav.home')}
           </MobileMenuItem>
           <MobileMenuItem href="/lots" icon={<Boxes size={16} />} onClick={() => setMenuOpen(false)}>
-            Barcha lotlar
+            {t('nav.lots')}
           </MobileMenuItem>
 
           <div style={{ height: 1, background: 'var(--border)', margin: '8px 4px' }} />
@@ -160,6 +164,8 @@ export default function Navbar() {
           <MobileMenuItem href="/admin/login" icon={<Settings size={16} />} accent onClick={() => setMenuOpen(false)}>
             Admin Panel
           </MobileMenuItem>
+
+          <div style={{ padding: '10px 12px' }}><LangSwitcher /></div>
 
           <button
             onClick={() => { toggleTheme(); setMenuOpen(false); }}
@@ -180,7 +186,7 @@ export default function Navbar() {
               {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
             </span>
             <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--text-muted)' }}>
-              {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+              {theme === 'dark' ? t('th.light') : t('th.dark')}
             </span>
           </button>
         </div>
