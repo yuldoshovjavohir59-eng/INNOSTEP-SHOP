@@ -21,7 +21,14 @@ export default function LotCard({ lot }: { lot: Lot }) {
             </div>
           )}
           <div style={{ position: 'absolute', top: 10, left: 10 }}>
-            <span className="badge badge-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <span className="badge" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              background: 'rgba(12, 12, 24, 0.78)', color: '#ffffff',
+              backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
+              border: '1px solid rgba(255, 255, 255, 0.14)',
+              padding: '3px 10px 3px 4px', borderRadius: 999,
+              fontSize: 11, fontWeight: 600, whiteSpace: 'nowrap',
+            }}>
               {exchange ? <ExchangeIcon exchange={exchange} size={16} /> : null}
               {lot.category}
             </span>
