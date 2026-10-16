@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Zap, Shield, RefreshCw, Package, Phone, Send, Clock, Truck, MessageCircle, Camera } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
+import { useT } from '@/lib/i18n';
 import LotCard from '@/components/lot/LotCard';
 import CategoryBar from '@/components/lot/CategoryBar';
 import { apiGetLots } from '@/lib/api';
@@ -27,6 +28,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('Barchasi');
   const cols = useColumns();
+  const t = useT();
 
   useEffect(() => {
     apiGetLots().then((all) => {
@@ -52,23 +54,23 @@ export default function HomePage() {
           <div style={{ maxWidth: 1280, margin: '0 auto', width: '100%', position: 'relative', zIndex: 1 }}>
             <div style={{ maxWidth: 720 }}>
               <span className="badge badge-accent" style={{ marginBottom: 20, display: 'inline-flex' }}>
-                <Zap size={12} /> Premium Mahsulotlar Katalogi
+                <Zap size={12} /> {t('hero.badge')}
               </span>
               <h1 className="font-display" style={{ fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 700, lineHeight: 1.1, marginBottom: 24 }}>
-                Sifatli{' '}<span className="gradient-text">mahsulotlar</span>{' '}eng qulay narxda
+                {t('hero.h1a')}{' '}<span className="gradient-text">{t('hero.h1b')}</span>{' '}{t('hero.h1c')}
               </h1>
               <p style={{ fontSize: 18, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 40, maxWidth: 520 }}>
-                Maishiy kimyo, gigiena mahsulotlari va ofis buyumlari — sifatli, qulay va hamyonbop narxlarda. Toshkent shahri ichida bepul yetkazib berish xizmati mavjud.
+                {t('hero.p')}
               </p>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-                <Link href="/lots"><button className="btn-gold" style={{ fontSize: 16 }}>Barcha lotlar <ArrowRight size={18} /></button></Link>
-                <Link href="/lots"><button className="btn-outline" style={{ fontSize: 16 }}>Kategoriyalar</button></Link>
+                <Link href="/lots"><button className="btn-gold" style={{ fontSize: 16 }}>{t('btn.lots')} <ArrowRight size={18} /></button></Link>
+                <Link href="/lots"><button className="btn-outline" style={{ fontSize: 16 }}>{t('btn.cats')}</button></Link>
               </div>
               <div style={{ display: 'flex', gap: 40, marginTop: 60, flexWrap: 'wrap' }}>
                 {[
-                  { value: lots.length + '+', label: 'Aktiv lot' },
-                  { value: categories.length + '+', label: 'Kategoriya' },
-                  { value: '100%', label: 'Kafolat' },
+                  { value: lots.length + '+', label: t('stat.lots') },
+                  { value: categories.length + '+', label: t('stat.cats') },
+                  { value: '100%', label: t('stat.guar') },
                 ].map((s) => (
                   <div key={s.label}>
                     <div className="font-display gradient-text-gold" style={{ fontSize: 32, fontWeight: 700 }}>{s.value}</div>
@@ -85,11 +87,11 @@ export default function HomePage() {
           <div style={{ maxWidth: 1280, margin: '0 auto' }}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
               {[
-                { icon: <Package size={22} />, title: "To'liq ma'lumot", desc: "Har bir lot uchun batafsil xarakteristikalar va rasmlar" },
-                { icon: <RefreshCw size={22} />, title: 'Narx sinxronizatsiyasi', desc: "Cooperation sayitidagi narxlar avtomatik yangilanib turadi" },
-                { icon: <Zap size={22} />, title: 'Tezkor buyurtma', desc: "Bir bosish bilan Cooperation ga o'tib buyurtma bering" },
-                { icon: <Shield size={22} />, title: 'Ishonchli', desc: 'Tasdiqlangan mahsulotlar, kafolatlangan sifat' },
-                { icon: <Truck size={22} />, title: 'Bepul yetkazib berish', desc: "Toshkent shahri ichida bepul yetkazib berish xizmati mavjud" },
+                { icon: <Package size={22} />, title: t('f1.t'), desc: t('f1.d') },
+                { icon: <RefreshCw size={22} />, title: t('f2.t'), desc: t('f2.d') },
+                { icon: <Zap size={22} />, title: t('f3.t'), desc: t('f3.d') },
+                { icon: <Shield size={22} />, title: t('f4.t'), desc: t('f4.d') },
+                { icon: <Truck size={22} />, title: t('f5.t'), desc: t('f5.d') },
               ].map((f) => (
                 <div key={f.title} className="card" style={{ padding: 24 }}>
                   <div style={{ width: 44, height: 44, background: 'rgba(108,99,255,0.15)', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', marginBottom: 16 }}>{f.icon}</div>
@@ -105,8 +107,8 @@ export default function HomePage() {
         <section style={{ padding: '60px 24px' }}>
           <div style={{ maxWidth: 1280, margin: '0 auto' }}>
             <div style={{ marginBottom: 32 }}>
-              <h2 className="font-display" style={{ fontSize: 28, fontWeight: 700, marginBottom: 6 }}>Barcha lotlar</h2>
-              <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>{loading ? 'Yuklanmoqda...' : `${displayLots.length} ta mahsulot ko'rsatilmoqda`}</p>
+              <h2 className="font-display" style={{ fontSize: 28, fontWeight: 700, marginBottom: 6 }}>{t('btn.lots')}</h2>
+              <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>{loading ? t('lots.loading') : t('lots.showing', { n: displayLots.length })}</p>
             </div>
 
             {/* Category filter — ikonkali qator */}
@@ -128,7 +130,7 @@ export default function HomePage() {
               <div style={{ display: 'flex', justifyContent: 'center', marginTop: 40 }}>
                 <Link href="/lots">
                   <button className="btn-outline" style={{ padding: '14px 40px', fontSize: 15 }}>
-                    Hammasini ko'rish <ArrowRight size={16} />
+                    {t('lots.viewall')} <ArrowRight size={16} />
                   </button>
                 </Link>
               </div>
@@ -150,23 +152,23 @@ export default function HomePage() {
               </span>
             </div>
             <p style={{ color: 'var(--text-muted)', fontSize: 13, lineHeight: 1.6, maxWidth: 320 }}>
-              Maishiy kimyo, gigiena mahsulotlari va ofis buyumlari — sifatli, qulay va hamyonbop narxlarda ulgurji yetkazib berish. Toshkent shahri ichida bepul yetkazib berish xizmati mavjud.
+              {t('footer.desc')}
             </p>
           </div>
 
           <div>
             <h4 style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: 0.5 }}>
-              Tezkor havolalar
+              {t('footer.links')}
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <FooterLink href="/">Bosh sahifa</FooterLink>
-              <FooterLink href="/lots">Barcha lotlar</FooterLink>
+              <FooterLink href="/">{t('nav.home')}</FooterLink>
+              <FooterLink href="/lots">{t('nav.lots')}</FooterLink>
             </div>
           </div>
 
           <div>
             <h4 style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: 0.5 }}>
-              Aloqa
+              {t('footer.contact')}
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <FooterLink href="tel:+998500370708" icon={<Phone size={14} />}>+998 50 037 07 08</FooterLink>
@@ -176,14 +178,14 @@ export default function HomePage() {
               <FooterLink href="https://t.me/JavakhirYoldashov" external icon={<Send size={14} />}>@JavakhirYoldashov</FooterLink>
               <span style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--text-muted)' }}>
                 <Clock size={14} style={{ color: 'var(--accent)', flexShrink: 0 }} />
-                Dush–Juma 9:00–18:00<br />Shan/Yak dam olish
+                {t('footer.h1')}<br />{t('footer.h2')}
               </span>
             </div>
           </div>
         </div>
 
         <div style={{ borderTop: '1px solid var(--border)', padding: '16px 24px', textAlign: 'center' }}>
-          <p style={{ color: 'var(--text-dim)', fontSize: 12 }}>© 2026 LUXURY MARKET. Barcha huquqlar himoyalangan.</p>
+          <p style={{ color: 'var(--text-dim)', fontSize: 12 }}>{t('footer.rights')}</p>
         </div>
       </footer>
     </>

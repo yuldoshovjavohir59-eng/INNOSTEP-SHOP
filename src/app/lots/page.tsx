@@ -7,6 +7,7 @@ import Navbar from '@/components/layout/Navbar';
 import LotCard from '@/components/lot/LotCard';
 import { apiGetLots } from '@/lib/api';
 import { Lot } from '@/types';
+import { useT } from '@/lib/i18n';
 import { getExchange, ExchangeIcon } from '@/lib/exchanges';
 
 function LotsContent() {
@@ -19,6 +20,7 @@ function LotsContent() {
   const [sort, setSort] = useState('new');
   const [sortOpen, setSortOpen] = useState(false);
   const sortRef = useRef<HTMLDivElement | null>(null);
+  const t = useT();
 
   useEffect(() => {
     apiGetLots().then(all => setAllLots(all.filter(l => l.isActive)));
@@ -62,9 +64,9 @@ function LotsContent() {
   }, [allLots, search, activeCategory, minPrice, maxPrice, sort]);
 
   const sortOptions: { value: string; label: string }[] = [
-    { value: 'new', label: 'Yangi birinchi' },
-    { value: 'price-asc', label: 'Arzondan qimmatga' },
-    { value: 'price-desc', label: 'Qimmatdan arzonga' },
+    { value: 'new', label: t('sort.new') },
+    { value: 'price-asc', label: t('sort.asc') },
+    { value: 'price-desc', label: t('sort.desc') },
   ];
   const currentSortLabel = sortOptions.find((o) => o.value === sort)?.label ?? '';
 
@@ -83,10 +85,10 @@ function LotsContent() {
       <main style={{ maxWidth: 1280, margin: '0 auto', padding: '40px 24px' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 28, flexWrap: 'wrap' }}>
           <h1 className="font-display" style={{ fontSize: 36, fontWeight: 700 }}>
-            Barcha <span className="gradient-text">lotlar</span>
+            {t('lots.h1a')} <span className="gradient-text">{t('lots.h1b')}</span>
           </h1>
           <span className="badge badge-accent" style={{ fontSize: 12, padding: '4px 12px' }}>
-            {lots.length} ta mahsulot
+            {t('lots.count', { n: lots.length })}
           </span>
         </div>
 
@@ -99,7 +101,7 @@ function LotsContent() {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <Filter size={16} color="var(--accent)" />
-                <span style={{ fontSize: 15, fontWeight: 700 }}>Filtrlar</span>
+                <span style={{ fontSize: 15, fontWeight: 700 }}>{t('filters')}</span>
               </div>
               {hasActiveFilters && (
                 <button
@@ -109,7 +111,7 @@ function LotsContent() {
                     color: 'var(--text-dim)', fontSize: 12, cursor: 'pointer', fontFamily: 'inherit',
                   }}
                 >
-                  <X size={12} /> Tozalash
+                  <X size={12} /> {t('clear')}
                 </button>
               )}
             </div>
@@ -117,7 +119,7 @@ function LotsContent() {
             {/* Kategoriya ro'yxati */}
             <div style={{ marginBottom: 24 }}>
               <h4 style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 10 }}>
-                Kategoriya
+                {t('category')}
               </h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 {categories.map((cat) => {
@@ -142,7 +144,7 @@ function LotsContent() {
                         const ex = getExchange(cat);
                         return ex ? <ExchangeIcon exchange={ex} size={18} /> : null;
                       })()}
-                      <span style={{ marginLeft: 8, flex: 1 }}>{cat}</span>
+                      <span style={{ marginLeft: 8, flex: 1 }}>{cat === 'Barchasi' ? t('all') : cat}</span>
                       <span style={{ fontSize: 11, color: 'var(--text-dim)' }}>
                         {cat === 'Barchasi' ? allLots.length : allLots.filter((l) => l.category === cat).length}
                       </span>
@@ -155,11 +157,11 @@ function LotsContent() {
             {/* Narx oralig'i */}
             <div>
               <h4 style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 10 }}>
-                Narx oralig'i
+                {t('price.range')}
               </h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 <div>
-                  <label style={{ fontSize: 11, color: 'var(--text-dim)', display: 'block', marginBottom: 4 }}>Narx dan</label>
+                  <label style={{ fontSize: 11, color: 'var(--text-dim)', display: 'block', marginBottom: 4 }}>{t('price.from')}</label>
                   <input
                     className="input" type="number" placeholder="0" value={minPrice}
                     onChange={(e) => setMinPrice(e.target.value)}
@@ -167,7 +169,7 @@ function LotsContent() {
                   />
                 </div>
                 <div>
-                  <label style={{ fontSize: 11, color: 'var(--text-dim)', display: 'block', marginBottom: 4 }}>Narx gacha</label>
+                  <label style={{ fontSize: 11, color: 'var(--text-dim)', display: 'block', marginBottom: 4 }}>{t('price.to')}</label>
                   <input
                     className="input" type="number" placeholder="1 000 000" value={maxPrice}
                     onChange={(e) => setMaxPrice(e.target.value)}
@@ -189,7 +191,7 @@ function LotsContent() {
               <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
                 <Search size={16} style={{ position: 'absolute', left: 16, color: 'var(--text-dim)', pointerEvents: 'none' }} />
                 <input
-                  placeholder="Mahsulot qidirish..."
+                  placeholder={t('search.ph')}
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                   style={{
@@ -263,7 +265,7 @@ function LotsContent() {
 
             {lots.length === 0 && (
               <div style={{ textAlign: 'center', padding: '80px 0', color: 'var(--text-dim)', fontSize: 16 }}>
-                {hasActiveFilters ? "Filtrlarga mos mahsulot topilmadi" : "Hozircha lotlar yo'q"}
+                {hasActiveFilters ? t('lots.nomatch') : t('lots.empty')}
               </div>
             )}
           </div>

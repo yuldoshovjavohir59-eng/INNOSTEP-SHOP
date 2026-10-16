@@ -7,6 +7,7 @@ import {
   ShoppingBag, CupSoda, ScrollText, Bath, Wrench, type LucideIcon,
 } from 'lucide-react';
 import { getExchange } from '@/lib/exchanges';
+import { useT } from '@/lib/i18n';
 
 // Kategoriya nomiga qarab mos ikonka (eng aniqdan umumiyga qarab tekshiriladi)
 function getCategoryIcon(name: string): LucideIcon {
@@ -59,6 +60,7 @@ export default function CategoryBar({
   active: string;
   onSelect: (c: string) => void;
 }) {
+  const t = useT();
   const base = ['Barchasi', ...categories];
   // Uzluksiz aylanish illyuziyasi uchun ro'yxatni ikki marta takrorlaymiz
   const [loop, setLoop] = useState(true);
@@ -231,7 +233,7 @@ export default function CategoryBar({
                 fontWeight: isActive ? 600 : 500,
                 color: isActive ? 'var(--text)' : 'var(--text-muted)',
                 fontFamily: "'Manrope', sans-serif",
-              }}>{cat}</span>
+              }}>{cat === 'Barchasi' ? t('all') : cat}</span>
             </button>
           );
         })}

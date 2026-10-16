@@ -3,12 +3,14 @@ import { ExternalLink, Package, TrendingUp } from 'lucide-react';
 import { Lot } from '@/types';
 import { formatPrice } from '@/lib/data';
 import { getExchange, ExchangeIcon } from '@/lib/exchanges';
+import { useT } from '@/lib/i18n';
 export default function LotCard({ lot }: { lot: Lot }) {
   const priceChanged = lot.cooperationPrice && lot.cooperationPrice !== lot.price;
   const priceDiff = lot.cooperationPrice
     ? Math.round(((lot.price - lot.cooperationPrice) / lot.cooperationPrice) * 100)
     : 0;
   const exchange = getExchange(lot.category);
+  const t = useT();
   return (
     <Link href={`/lot/${lot.id}`} style={{ textDecoration: 'none', display: 'flex' }}>
       <div className="card" style={{ overflow: 'hidden', cursor: 'pointer', width: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -74,13 +76,13 @@ export default function LotCard({ lot }: { lot: Lot }) {
               fontFamily: "'Unbounded', sans-serif",
               lineHeight: 1.2, whiteSpace: 'nowrap',
             }}>
-              {formatPrice(lot.price)}
+              {formatPrice(lot.price).replace("so'm", t('cur'))}
             </div>
             <div style={{
               display: 'flex', alignItems: 'center', gap: 3, flexShrink: 0,
               fontSize: 11, color: 'var(--accent)', fontWeight: 600,
             }}>
-              <ExternalLink size={11} /> Batafsil
+              <ExternalLink size={11} /> {t('details')}
             </div>
           </div>
         </div>

@@ -6,13 +6,16 @@ import { ArrowLeft, ExternalLink, Minus, Plus, Package, CheckCircle, Info, Chevr
 import Navbar from '@/components/layout/Navbar';
 import { apiGetLot, apiRecordView, apiRecordOrder } from '@/lib/api';
 import { Lot } from '@/types';
-import { formatPrice as fmtPrice } from '@/lib/data';
+import { formatPrice as fmtPriceRaw } from '@/lib/data';
+import { useT } from '@/lib/i18n';
 import { getExchange, ExchangeIcon } from '@/lib/exchanges';
 
 const TELEGRAM_USERNAME = 'JavakhirYoldashov';
 
 export default function LotDetailPage() {
   const params = useParams();
+  const t = useT();
+  const fmtPrice = (n: number) => fmtPriceRaw(n).replace("so'm", t('cur'));
   const [lot, setLot] = useState<Lot | null | undefined>(undefined);
   const [qtyText, setQtyText] = useState('1');
   const [activeImg, setActiveImg] = useState(0);
@@ -30,8 +33,8 @@ export default function LotDetailPage() {
     <>
       <Navbar />
       <div style={{ textAlign: 'center', padding: '100px 24px' }}>
-        <h2 style={{ fontSize: 24, marginBottom: 16 }}>Lot topilmadi</h2>
-        <Link href="/lots"><button className="btn-primary">Orqaga</button></Link>
+        <h2 style={{ fontSize: 24, marginBottom: 16 }}>{t('notfound')}</h2>
+        <Link href="/lots"><button className="btn-primary">{t('back')}</button></Link>
       </div>
     </>
   );
@@ -46,7 +49,7 @@ export default function LotDetailPage() {
   const totalPrice = lot.price * qty;
 
   const exchange = getExchange(lot.category);
-  const exchangeName = exchange ? exchange.name : 'sayt';
+  const exchangeName = exchange ? exchange.name : t('site');
 
   function commitQty() { setQtyText(String(qty)); }
 
@@ -58,13 +61,13 @@ export default function LotDetailPage() {
   function handleTelegramContact() {
     apiRecordOrder(lot!.id);
     const lines = [
-      'Assalomu alaykum! Buyurtma bermoqchiman:',
+      t('tg.hello'),
       '',
-      'Mahsulot: ' + lot!.title,
-      exchange ? 'Birja: ' + exchange.name : '',
-      'Miqdor: ' + qty + ' ta',
-      'Narx (1 ta): ' + fmtPrice(lot!.price),
-      'Jami: ' + fmtPrice(totalPrice),
+      t('tg.product') + lot!.title,
+      exchange ? t('tg.exchange') + exchange.name : '',
+      t('tg.qty', { n: qty }),
+      t('tg.price') + fmtPrice(lot!.price),
+      t('tg.total') + fmtPrice(totalPrice),
       '',
       typeof window !== 'undefined' ? window.location.href : '',
     ].filter((l, i, arr) => !(l === '' && i > 0 && arr[i - 1] === ''));
@@ -76,9 +79,9 @@ export default function LotDetailPage() {
       <Navbar />
       <main style={{ maxWidth: 1280, margin: '0 auto', padding: '32px 24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 32, fontSize: 13, color: 'var(--text-muted)', flexWrap: 'wrap' }}>
-          <Link href="/" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Bosh sahifa</Link>
+          <Link href="/" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>{t('nav.home')}</Link>
           <ChevronRight size={14} />
-          <Link href="/lots" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Lotlar</Link>
+          <Link href="/lots" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>{t('crumb.lots')}</Link>
           <ChevronRight size={14} />
           <span style={{ color: 'var(--text)' }}>{lot.title}</span>
         </div>
@@ -129,17 +132,17 @@ export default function LotDetailPage() {
             <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, padding: '20px 24px', marginBottom: 20 }}>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 4, flexWrap: 'wrap' }}>
                 <span className="gradient-text-gold font-display" style={{ fontSize: 'clamp(22px, 6vw, 32px)', fontWeight: 700, whiteSpace: 'nowrap' }}>{fmtPrice(lot.price)}</span>
-                <span style={{ fontSize: 12, color: 'var(--text-dim)' }}>1 ta uchun</span>
+                <span style={{ fontSize: 12, color: 'var(--text-dim)' }}>{t('per')}</span>
               </div>
               {lot.cooperationPrice && lot.cooperationPrice !== lot.price && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: 'var(--text-muted)' }}>
-                  <Info size={12} /> {exchangeName} saytidagi narx: <strong>{fmtPrice(lot.cooperationPrice)}</strong>
+                  <Info size={12} /> {t('site.price', { name: exchangeName })} <strong>{fmtPrice(lot.cooperationPrice)}</strong>
                 </div>
               )}
             </div>
 
             <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, padding: '20px 24px', marginBottom: 20 }}>
-              <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 14, color: 'var(--text-muted)' }}>MIQDOR TANLASH</div>
+              <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 14, color: 'var(--text-muted)' }}>{t('qty.title')}</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8, flexWrap: 'wrap' }}>
                 <button className="btn-outline" style={{ padding: '8px 14px', minWidth: 42 }} onClick={() => setQtyText(String(clamp(qty - 1)))}>
                   <Minus size={16} />
@@ -155,16 +158,16 @@ export default function LotDetailPage() {
                   <Plus size={16} />
                 </button>
                 <span style={{ fontSize: 12, color: 'var(--text-dim)' }}>
-                  (min: {minQty}{maxQty < 1000000000 ? ', max: ' + maxQty : ''})
+                  ({t('qty.min')}: {minQty}{maxQty < 1000000000 ? ', ' + t('qty.max') + ': ' + maxQty : ''})
                 </span>
               </div>
               {outOfRange && (
                 <div style={{ fontSize: 12, color: '#f59e0b', marginBottom: 8 }}>
-                  Miqdor {minQty} dan {maxQty < 1000000000 ? maxQty + ' gacha' : 'yuqori'} bo&apos;lishi kerak. Hisob {qty} ta bo&apos;yicha.
+                  {maxQty < 1000000000 ? t('qty.warnRange', { min: minQty, max: maxQty, qty: qty }) : t('qty.warnMin', { min: minQty, qty: qty })}
                 </div>
               )}
               <div style={{ borderTop: '1px solid var(--border)', paddingTop: 14, marginTop: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
-                <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>Jami ({qty} ta):</span>
+                <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>{t('total', { qty: qty })}</span>
                 <span className="gradient-text-gold font-display" style={{ fontSize: 'clamp(17px, 4.5vw, 22px)', fontWeight: 700, whiteSpace: 'nowrap' }}>{fmtPrice(totalPrice)}</span>
               </div>
             </div>
@@ -177,7 +180,7 @@ export default function LotDetailPage() {
                   style={{ justifyContent: 'center', fontSize: 15, padding: '15px', borderRadius: 12, gap: 10 }}
                 >
                   {exchange ? <ExchangeIcon exchange={exchange} size={22} /> : null}
-                  {exchange ? exchange.name + ' orqali' : 'Saytda buyurtma berish'} <ExternalLink size={15} />
+                  {exchange ? t('order.via', { name: exchange.name }) : t('order.site')} <ExternalLink size={15} />
                 </button>
               ) : null}
               <button
@@ -185,14 +188,14 @@ export default function LotDetailPage() {
                 onClick={handleTelegramContact}
                 style={{ justifyContent: 'center', fontSize: 15, padding: '15px', borderRadius: 12, gap: 10 }}
               >
-                <Send size={18} /> Telegram orqali bog&apos;lanish
+                <Send size={18} /> {t('tg.btn')}
               </button>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6, fontSize: 12, color: 'var(--text-dim)', marginTop: 10, justifyContent: 'center', textAlign: 'center' }}>
               <CheckCircle size={12} color="var(--success)" style={{ marginTop: 2, flexShrink: 0 }} />
               <span>
-                {lot.cooperationLink ? 'Buyurtma ' + (exchange ? exchange.name : 'tashqi') + ' saytida rasmiylashtiriladi. ' : ''}
-                Telegram orqali — to&apos;g&apos;ridan-to&apos;g&apos;ri biz bilan bog&apos;lanasiz.
+                {lot.cooperationLink ? t('note.site', { name: exchange ? exchange.name : t('site') }) + ' ' : ''}
+                {t('note.tg')}
               </span>
             </div>
           </div>
@@ -200,7 +203,7 @@ export default function LotDetailPage() {
 
         {lot.characteristics.length > 0 && (
           <div style={{ marginTop: 48, background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 16, padding: '28px' }}>
-            <h2 className="font-display" style={{ fontSize: 20, fontWeight: 700, marginBottom: 24 }}>Xarakteristikalar</h2>
+            <h2 className="font-display" style={{ fontSize: 20, fontWeight: 700, marginBottom: 24 }}>{t('char.title')}</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 2 }}>
               {lot.characteristics.map((c, i) => (
                 <div key={c.key} style={{
@@ -218,7 +221,7 @@ export default function LotDetailPage() {
         )}
 
         <div style={{ marginTop: 32 }}>
-          <Link href="/lots"><button className="btn-outline"><ArrowLeft size={16} /> Orqaga</button></Link>
+          <Link href="/lots"><button className="btn-outline"><ArrowLeft size={16} /> {t('back')}</button></Link>
         </div>
       </main>
     </>
