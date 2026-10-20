@@ -3,7 +3,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: 'LUXURY MARKET — Premium Mahsulotlar',
+    default: 'LUXURY MARKET — Maishiy kimyo va ofis buyumlari',
     template: '%s | LUXURY MARKET',
   },
   description: "Maishiy kimyo, gigiena mahsulotlari va ofis buyumlari — sifatli va hamyonbop narxlarda. Toshkent shahri ichida bepul yetkazib berish.",
@@ -20,12 +20,12 @@ export const metadata: Metadata = {
     locale: 'uz_UZ',
     url: 'https://luxury-market.uz',
     siteName: 'LUXURY MARKET',
-    title: 'LUXURY MARKET — Premium Mahsulotlar',
+    title: 'LUXURY MARKET — Maishiy kimyo va ofis buyumlari',
     description: "Maishiy kimyo, gigiena va ofis buyumlari — sifatli, qulay narxlarda.",
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'LUXURY MARKET — Premium Mahsulotlar',
+    title: 'LUXURY MARKET — Maishiy kimyo va ofis buyumlari',
     description: "Maishiy kimyo, gigiena va ofis buyumlari — sifatli, qulay narxlarda.",
   },
   robots: {
