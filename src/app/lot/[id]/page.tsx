@@ -196,6 +196,7 @@ export default function LotDetailPage() {
               <span>
                 {lot.cooperationLink ? t('note.site', { name: exchange ? exchange.name : t('site') }) + ' ' : ''}
                 {t('note.tg')}
+                {lot.cooperationLink ? ' ' + t('note.fallback') : ''}
               </span>
             </div>
           </div>

@@ -46,6 +46,7 @@ export function useLang(): Lang {
 const D: Record<string, [string, string, string]> = {
   "nav.home": ["Bosh sahifa","Главная","Home"],
   "nav.lots": ["Barcha lotlar","Все лоты","All lots"],
+  "note.fallback": ["Birja sahifasi ochilmasa, Telegram orqali yozing — yordam beramiz.","Если страница биржи не открывается, напишите нам в Telegram — мы поможем.","If the exchange page does not open, message us on Telegram — we will help."],
   "nav.searchLabel": ["Qidirish","Поиск","Search"],
   "nav.contact": ["Biz bilan tezkor aloqa:","Быстрая связь с нами:","Contact us quickly:"],
   "nav.search": ["Qidirish... (Enter)","Поиск... (Enter)","Search... (Enter)"],
