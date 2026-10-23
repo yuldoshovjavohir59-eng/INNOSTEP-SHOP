@@ -117,7 +117,7 @@ const D: Record<string, [string, string, string]> = {
   "order.site": ["Saytda buyurtma berish","Заказать на сайте","Order on the site"],
   "tg.btn": ["Telegram orqali bog'lanish","Связаться через Telegram","Contact via Telegram"],
   "note.site": ["Buyurtma {name} saytida rasmiylashtiriladi.","Заказ оформляется на сайте {name}.","The order is completed on {name}."],
-  "note.tg": ["Telegram orqali — to'g'ridan-to'g'ri biz bilan bog'lanasiz.","Через Telegram вы связываетесь напрямую с нами.","Via Telegram you contact us directly."],
+  "share": ["Ulashish","Поделиться","Share"], "copied": ["Havola nusxalandi","Ссылка скопирована","Link copied"], "note.tg": ["Telegram orqali — to'g'ridan-to'g'ri biz bilan bog'lanasiz.","Через Telegram вы связываетесь напрямую с нами.","Via Telegram you contact us directly."],
   "tg.hello": ["Assalomu alaykum\u0021 Buyurtma bermoqchiman:","Здравствуйте\u0021 Хочу сделать заказ:","Hello\u0021 I would like to place an order:"],
   "tg.product": ["Mahsulot: ","Товар: ","Product: "],
   "tg.exchange": ["Birja: ","Биржа: ","Exchange: "],

@@ -27,6 +27,15 @@ export default function LotDetailPage() {
     });
   }, [params.id]);
 
+  const shareLot = async () => {
+    const url = window.location.href;
+    const title = lot ? lot.title : 'LUXURY MARKET';
+    try {
+      if (typeof navigator.share === 'function') { await navigator.share({ title, url }); return; }
+    } catch (e) { return; }
+    try { await navigator.clipboard.writeText(url); alert(t('copied')); }
+    catch (e) { window.prompt(t('copied'), url); }
+  };
   if (lot === undefined) return null;
 
   if (!lot) return (
@@ -126,7 +135,7 @@ export default function LotDetailPage() {
               {exchange ? <ExchangeIcon exchange={exchange} size={18} /> : null}
               {lot.category}
             </span>
-            <h1 style={{ fontSize: 26, fontWeight: 700, lineHeight: 1.3, marginBottom: 8 }}>{lot.title}</h1>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 8 }}><h1 style={{ fontSize: 26, fontWeight: 700, lineHeight: 1.3, margin: 0, flex: 1 }}>{lot.title}</h1><button className="btn-outline" aria-label={t('share')} title={t('share')} onClick={shareLot} style={{ padding: '8px 12px', display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg><span>{t('share')}</span></button></div>
             <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 24 }}>{lot.description}</p>
 
             <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, padding: '20px 24px', marginBottom: 20 }}>
